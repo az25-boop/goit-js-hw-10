@@ -6,39 +6,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Page 2</title>
     <link rel="stylesheet" href="./css/styles.css" />
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
-    /> -->
+    <link rel="stylesheet" href="./css/timer.css" />
   </head>
   <body>
-    <section>
-      <a href="./index.html">Go to home</a>
-      <h1>Таймер зворотного відліку</h1>
+    <div class="btn-container">
+      <p>
+        <a class="btn" href="index.html">Go back</a>
+      </p>
+    </div>
 
-      <input type="text" id="datetime-picker" />
-      <button type="button" data-start>Start</button>
-
-      <div class="timer">
-        <div class="field">
-          <span class="value" data-days>00</span>
-          <span class="label">Days</span>
+    <div class="thumb-block">
+      <div class="position" id="animatedDiv">
+        <div class="calendar">
+          <input class="input-calendar" type="text" id="datetime-picker" />
+          <button class="btn-input" type="button" data-start disabled>
+            Start
+          </button>
         </div>
-        <div class="field">
-          <span class="value" data-hours>00</span>
-          <span class="label">Hours</span>
-        </div>
-        <div class="field">
-          <span class="value" data-minutes>00</span>
-          <span class="label">Minutes</span>
-        </div>
-        <div class="field">
-          <span class="value" data-seconds>00</span>
-          <span class="label">Seconds</span>
+        <div class="timer">
+          <div class="field">
+            <span class="value" data-days>00</span>
+            <span class="label">Days</span>
+          </div>
+          <div class="field">
+            <span class="value" data-hours>00</span>
+            <span class="label">Hours</span>
+          </div>
+          <div class="field">
+            <span class="value" data-minutes>00</span>
+            <span class="label">Minutes</span>
+          </div>
+          <div class="field">
+            <span class="value" data-seconds>00</span>
+            <span class="label">Seconds</span>
+          </div>
         </div>
       </div>
-    </section>
+    </div>
     <script type="module" src="./js/1-timer.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script> -->
   </body>
 </html>
