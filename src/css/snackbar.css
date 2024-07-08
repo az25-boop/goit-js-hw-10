@@ -46,14 +46,14 @@ body {
   animation: wave 5s infinite linear;
   transition: all 1s;
 }
-
+/* 
 .btn:hover {
   color: #64b56a;
 }
 
 .btn:hover::after {
   top: 25px;
-}
+} */
 
 .thumb-block {
   display: flex;
