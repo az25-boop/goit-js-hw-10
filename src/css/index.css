@@ -33,25 +33,7 @@ body {
   line-height: 1.5;
   letter-spacing: 0.04em;
   padding: 25px 60px;
-
-  /* overflow: hidden;
-  transition: all 0.3s; */
 }
-
-/* .btn::after {
-  content: '';
-  position: absolute;
-  width: 390px;
-  height: 390px;
-  border-radius: 140px;
-  background-color: #fff;
-  top: 70px;
-  left: 50%;
-  z-index: -1;
-
-  animation: wave 5s infinite linear;
-  transition: all 1s;
-} */
 
 .btn:hover {
   color: #b471f3;
