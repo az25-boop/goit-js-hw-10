@@ -1,21 +1,14 @@
 import flatpickr from 'flatpickr';
-// Додатковий імпорт стилів
 import 'flatpickr/dist/flatpickr.min.css';
 import iziToast from 'izitoast';
 import 'izitoast/dist/css/iziToast.min.css';
 
-let getRef = selector => document.querySelector(selector);
-
-const imputDatePickerRef = getRef('#datetime-picker');
-const btnStartRef = getRef('[data-start]');
-const daysRef = getRef('[data-days]');
-const hoursRef = getRef('[data-hours]');
-const minutesRef = getRef('[data-minutes]');
-const secondsRef = getRef('[data-seconds]');
-
-let timeDifference = 0;
-let timerId = null;
-let formatDate = null;
+const btnStart = document.querySelector('button[data-start]');
+const input = document.querySelector('#datetime-picker');
+const day = document.querySelector('span[data-days]');
+const hour = document.querySelector('span[data-hours]');
+const minute = document.querySelector('span[data-minutes]');
+const second = document.querySelector('span[data-seconds]');
 
 const options = {
   enableTime: true,
@@ -23,82 +16,25 @@ const options = {
   defaultDate: new Date(),
   minuteIncrement: 1,
   onClose(selectedDates) {
-    console.log(selectedDates[0]);
-    currentDifferenceDate(selectedDates[0]);
+    if (options.defaultDate >= selectedDates[0]) {
+      btnStart.disabled = true;
+
+      iziToast.error({
+        title: 'Error',
+        message: 'Please choose a date in the future',
+      });
+    } else {
+      btnStart.disabled = false;
+
+      iziToast.success({
+        title: 'OK',
+        message: 'You can press "Start"!',
+      });
+    }
   },
 };
 
-btnStartRef.setAttribute('disabled', true);
-
-flatpickr(imputDatePickerRef, options);
-
-btnStartRef.addEventListener('click', onBtnStart);
-
-// Reset timer on btn
-window.addEventListener('keydown', e => {
-  if (e.code === 'Escape' && timerId) {
-    clearInterval(timerId);
-
-    imputDatePickerRef.removeAttribute('disabled');
-    btnStartRef.setAttribute('disabled', true);
-
-    secondsRef.textContent = '00';
-    minutesRef.textContent = '00';
-    hoursRef.textContent = '00';
-    daysRef.textContent = '00';
-  }
-});
-
-// Start timer
-function onBtnStart() {
-  timerId = setInterval(startTimer, 1000);
-}
-
-function currentDifferenceDate(selectedDates) {
-  const currentDate = Date.now();
-
-  if (selectedDates < currentDate) {
-    btnStartRef.setAttribute('disabled', true);
-    iziToast.error({
-      title: 'Error',
-      message: 'Please choose a date in the future',
-    });
-    return;
-  }
-
-  timeDifference = selectedDates.getTime() - currentDate;
-  formatDate = convertMs(timeDifference);
-
-  renderDate(formatDate);
-  btnStartRef.removeAttribute('disabled');
-}
-
-//Timer
-function startTimer() {
-  btnStartRef.setAttribute('disabled', true);
-  imputDatePickerRef.setAttribute('disabled', true);
-
-  timeDifference -= 1000;
-
-  if (timeDifference <= 0) {
-    iziToast.success({
-      title: 'Success',
-      message: 'Time end',
-    });
-    clearInterval(timerId);
-  } else {
-    formatDate = convertMs(timeDifference);
-    renderDate(formatDate);
-  }
-}
-
-// Rendering date
-function renderDate(formatDate) {
-  secondsRef.textContent = formatDate.seconds;
-  minutesRef.textContent = formatDate.minutes;
-  hoursRef.textContent = formatDate.hours;
-  daysRef.textContent = formatDate.days;
-}
+flatpickr('#datetime-picker', options);
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
@@ -113,14 +49,50 @@ function convertMs(ms) {
   const hours = Math.floor((ms % day) / hour);
   // Remaining minutes
   const minutes = Math.floor(((ms % day) % hour) / minute);
-  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
   // Remaining seconds
+  const seconds = Math.floor((((ms % day) % hour) % minute) / second);
 
   return { days, hours, minutes, seconds };
 }
 
-console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
-console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
-console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+/**
+ *
+ * @param {number} value - число (наприклад 4)
+ * @returns {string} - відформатоване значення під формат xx:xx:xx:xx, для додавання до HTML сторінки (наприклад 04)
+ */
+const addLeadingZero = value => value.toString().padStart(2, '0');
 
-document.querySelector('.start-button').addEventListener('click', onBtnStart);
+btnStart.addEventListener('click', startTimer);
+
+function startTimer() {
+  btnStart.disabled = true;
+  input.disabled = true;
+
+  // animatedDiv - данна змінна потрібна для стилізації
+  const animatedDiv = document.querySelector('#animatedDiv');
+  animatedDiv.classList.add('animated');
+
+  const timer = setInterval(() => {
+    const currentDate = new Date();
+    const targetDate = new Date(input.value);
+    const timeDiff = targetDate - currentDate;
+
+    const { days, hours, minutes, seconds } = convertMs(timeDiff);
+
+    day.textContent = addLeadingZero(days);
+    hour.textContent = addLeadingZero(hours);
+    minute.textContent = addLeadingZero(minutes);
+    second.textContent = addLeadingZero(seconds);
+
+    const isTimerFinished = [days, hours, minutes, seconds].every(
+      value => value === 0
+    );
+
+    if (isTimerFinished) {
+      clearInterval(timer);
+      input.disabled = false;
+
+      animatedDiv.classList.remove('animated');
+    }
+  }, 1000);
+}
