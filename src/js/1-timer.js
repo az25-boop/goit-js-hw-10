@@ -55,11 +55,10 @@ function convertMs(ms) {
   return { days, hours, minutes, seconds };
 }
 
-/**
- *
- * @param {number} value - число (наприклад 4)
- * @returns {string} - відформатоване значення під формат xx:xx:xx:xx, для додавання до HTML сторінки (наприклад 04)
- */
+console.log(convertMs(2000)); // {days: 0, hours: 0, minutes: 0, seconds: 2}
+console.log(convertMs(140000)); // {days: 0, hours: 0, minutes: 2, seconds: 20}
+console.log(convertMs(24140000)); // {days: 0, hours: 6 minutes: 42, seconds: 20}
+
 const addLeadingZero = value => value.toString().padStart(2, '0');
 
 btnStart.addEventListener('click', startTimer);
