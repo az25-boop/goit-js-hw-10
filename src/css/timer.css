@@ -1,5 +1,5 @@
 body {
-  background-color: #976ec0;
+  background-color: #9b7cda;
   font-family: Montserrat;
 }
 
@@ -42,9 +42,6 @@ body {
   top: 50px;
   left: 50%;
   z-index: -1;
-
-  /* animation: wave 5s infinite linear;
-  transition: all 1s; */
 }
 
 @keyframes wave {
@@ -57,13 +54,13 @@ body {
   }
 }
 
-.btn:hover {
+/* .btn:hover {
   color: #88818f;
-}
-
+} */
+/* 
 .btn:hover::after {
   top: 25px;
-}
+} */
 
 .thumb-block {
   display: flex;
