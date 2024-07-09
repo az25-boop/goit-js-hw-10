@@ -77,7 +77,7 @@ body {
 
   text-align: center;
 }
-
+/* 
 .position.animated::before {
   content: '';
   position: absolute;
@@ -108,7 +108,7 @@ body {
   height: calc(100% - 12px);
   background-color: #88818f;
   border-radius: 5px;
-}
+} */
 
 @keyframes rotate {
   100% {
